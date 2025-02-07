@@ -11,7 +11,7 @@ function Header() {
 		<ul className="d-flex ">
 			<li className="mr-30">
 				<img width={18} height={18} src="./cartIcon.svg" alt="cartIcon"/>
-				<span>1205 руб.</span>
+				<span>6700 тг.</span>
 			</li>
 			<li className="mr-30">
 				<img width={18} height={18} src="./LoveIcon.svg" alt="LoveIcon"/>

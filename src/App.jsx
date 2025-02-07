@@ -25,7 +25,7 @@ function App() {
 						<div className="d-flex justify-between align-center">
 							<div className="d-flex flex-column">
 								<span>Цена:</span>
-								<b>12 999 руб.</b>
+								<b>57 990 тг.</b>
 							</div>
 							<button className="button">
 								<img width={11} height={11} src="./plus.svg" alt="Plus"/>
@@ -38,7 +38,7 @@ function App() {
 						<div className="d-flex justify-between align-center">
 							<div className="d-flex flex-column">
 								<span>Цена:</span>
-								<b>8 499 руб.</b>
+								<b>45 990 тг.</b>
 							</div>
 							<button className="button">
 								<img width={11} height={11} src="./plus.svg" alt="Plus"/>
@@ -51,7 +51,7 @@ function App() {
 						<div className="d-flex justify-between align-center">
 							<div className="d-flex flex-column">
 								<span>Цена:</span>
-								<b>8 999 руб.</b>
+								<b>47 990 тг.</b>
 							</div>
 							<button className="button">
 								<img width={11} height={11} src="./plus.svg" alt="Plus"/>
