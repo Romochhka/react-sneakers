@@ -1,6 +1,28 @@
-import Card from './components/Card.jsx';
+import React from 'react';
+import Card from './components/Card/Card.jsx';
 import Header from "./components/Header.jsx";
 import CartDrawer from "./components/CartDrawer.jsx";
+
+const arr = [{
+	title: 'Мужские Кроссовки Nike Blazer Mid Suede',
+	price: '57990',
+	imageUrl: "./sneakers/1.png"
+},
+	{
+		title: 'Мужские Кроссовки Nike Air Max 270',
+		price: '45990',
+		imageUrl: "./sneakers/2.jpg"
+	},
+	{
+		title: 'Мужские Кроссовки Nike Blazer Mid Suede',
+		price: '47990',
+		imageUrl: "./sneakers/3.jpg"
+	},
+	{
+		title: 'Кроссовки Puma X Aka Boku Future Rider',
+		price: '69990',
+		imageUrl: "./sneakers/4.jpg"
+	}];
 
 function App() {
 	return (
@@ -16,53 +38,19 @@ function App() {
 					</div>
 				</div>
 				<div className="d-flex">
-					<div className="card">
-						<div className="favorite">
-							<img src="./notLiked.svg" alt="notLiked"/>
-						</div>
-						<img width={133} height={112} src="./sneakers/1.png" alt="Sneakers"/>
-						<h5>Мужские Кроссовки Nike Blazer Mid Suede</h5>
-						<div className="d-flex justify-between align-center">
-							<div className="d-flex flex-column">
-								<span>Цена:</span>
-								<b>57 990 тг.</b>
-							</div>
-							<button className="button">
-								<img width={11} height={11} src="./plus.svg" alt="Plus"/>
-							</button>
-						</div>
-					</div>
-					<div className="card">
-						<img width={133} height={112} src="./sneakers/2.jpg" alt="Sneakers"/>
-						<h5>Мужские Кроссовки Nike Air Max 270</h5>
-						<div className="d-flex justify-between align-center">
-							<div className="d-flex flex-column">
-								<span>Цена:</span>
-								<b>45 990 тг.</b>
-							</div>
-							<button className="button">
-								<img width={11} height={11} src="./plus.svg" alt="Plus"/>
-							</button>
-						</div>
-					</div>
-					<div className="card">
-						<img width={133} height={112} src="./sneakers/3.jpg" alt="Sneakers"/>
-						<h5>Кроссовки Puma X Aka Boku Future Rider</h5>
-						<div className="d-flex justify-between align-center">
-							<div className="d-flex flex-column">
-								<span>Цена:</span>
-								<b>47 990 тг.</b>
-							</div>
-							<button className="button">
-								<img width={11} height={11} src="./plus.svg" alt="Plus"/>
-							</button>
-						</div>
-					</div>
-					<Card/>
+					{arr.map((obj, index) => (
+						<Card key={index}
+							  title={obj.title}
+							  price={obj.price}
+							  imageUrl={obj.imageUrl}
+							  onFavorite={() => console.log("Добавили в закладки")}
+							  onPlus={() => console.log("Нажали плюс")}
+						/>
+					))}
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default App
+export default App;
