@@ -3,32 +3,33 @@ import Card from './components/Card/Card.jsx';
 import Header from "./components/Header.jsx";
 import CartDrawer from "./components/CartDrawer.jsx";
 
-const arr = [{
-	title: 'Мужские Кроссовки Nike Blazer Mid Suede',
-	price: '57990',
-	imageUrl: "./sneakers/1.png"
-},
-	{
-		title: 'Мужские Кроссовки Nike Air Max 270',
-		price: '45990',
-		imageUrl: "./sneakers/2.jpg"
-	},
-	{
-		title: 'Мужские Кроссовки Nike Blazer Mid Suede',
-		price: '47990',
-		imageUrl: "./sneakers/3.jpg"
-	},
-	{
-		title: 'Кроссовки Puma X Aka Boku Future Rider',
-		price: '69990',
-		imageUrl: "./sneakers/4.jpg"
-	}];
-
 function App() {
+	const [items, setItems] = React.useState([]);
+	const [cartItems, setCartItems] = React.useState([]);
+	const [cartOpened, setCartOpened] = React.useState(false);
+
+	React.useEffect(() => {
+		fetch('https://67add5003f5a4e1477df47df.mockapi.io/items').then(res => {
+			return res.json();
+		}).then(json => {
+			setItems(json);
+		})
+	}, []);
+
+	const onAddToCart = (obj) => {
+		setCartItems(prev => {
+			const isItemInCart = prev.some((item) => item.title === obj.title);
+			// [...prev, obj]);
+			return isItemInCart ? prev : [...prev, obj];
+		});
+	};
+
+
+
 	return (
 		<div className="wrapper clear">
-			<CartDrawer/>
-			<Header/>
+			{cartOpened && <CartDrawer items={cartItems} onClose={() => setCartOpened(false)}/>}
+			<Header onClickCart={() => setCartOpened(!cartOpened)} />
 			<div className="content p-40">
 				<div className="d-flex align-center justify-between mb-40">
 					<h1>Все кроссовки</h1>
@@ -37,14 +38,14 @@ function App() {
 						<input placeholder="Поиск..."/>
 					</div>
 				</div>
-				<div className="d-flex">
-					{arr.map((obj, index) => (
-						<Card key={index}
-							  title={obj.title}
-							  price={obj.price}
-							  imageUrl={obj.imageUrl}
+				<div className="d-flex flex-wrap">
+					{items.map((item) => (
+						<Card
+							  title={item.title}
+							  price={item.price}
+							  imageUrl={item.imageUrl}
 							  onFavorite={() => console.log("Добавили в закладки")}
-							  onPlus={() => console.log("Нажали плюс")}
+							  onPlus={(obj) => onAddToCart(obj)}
 						/>
 					))}
 				</div>
