@@ -2,9 +2,7 @@ function CartDrawer({onClose, items = []}) {
 	return (
 		<div className="overlay">
 			<div className="rightSide">
-				<h2 className="d-flex justify-between mb-30 ">Корзина <img
-					className=" removeBtn cu-p" onClick={onClose} src="./btn-remove.svg" alt="Remove"
-				/>
+				<h2 className="d-flex justify-between mb-30 ">Корзина
 				</h2>
 
 			<div className="items">
