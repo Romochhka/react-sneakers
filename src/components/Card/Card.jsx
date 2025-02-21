@@ -1,10 +1,9 @@
 import React from 'react';
 import styles from './Card.module.scss';
-import axios from "axios";
 
-function Card({ onFavorite, title, imageUrl, price, onPlus }) {
+function Card({ onFavorite, id, title, imageUrl, price, onPlus, favorited=false}) {
 	const [isAdded, setIsAdded] = React.useState(false);
-	const [isFavorite, setIsFavorite] = React.useState(false);
+	const [isFavorite, setIsFavorite] = React.useState(favorited);
 
 	const onClickPlus = () => {
 		onPlus({title, price, imageUrl});
@@ -12,12 +11,13 @@ function Card({ onFavorite, title, imageUrl, price, onPlus }) {
 	};
 
 	const onClickFavorite = () => {
-		onFavorite({});
-		setIsFavorite(!isFavorite);}
+		onFavorite({id, title, price, imageUrl});
+		setIsFavorite(!isFavorite);
+	}
 
 	return (
 		<div className={styles.card}>
-			<div className={styles.favorite} onClick={onFavorite}>
+			<div className={styles.favorite}>
 				<img onClick={onClickFavorite} src={isFavorite ? "./liked.svg" : "./notLiked.svg"} alt="NotLiked"/>
 			</div>
 			<img width={133} height={112} src={imageUrl} alt="Sneakers"/>

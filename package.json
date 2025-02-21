@@ -19,6 +19,7 @@
     "node-sass": "^9.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.2.0",
     "yarn": "^1.22.22"
   },
   "devDependencies": {
