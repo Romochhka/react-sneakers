@@ -29,18 +29,22 @@ function App() {
 
 
 	//функции -->
-	const onAddToCart = (obj) => {
-		axios.post('https://67add5003f5a4e1477df47df.mockapi.io/cart', obj)
-		setCartItems(prev => {
-			const isItemInCart = prev.some((item) => item.title === obj.title);
-			if (isItemInCart) {
-				return prev.filter(item => {
-					return item.title !== obj.title
-				});
-			}
-			return [...prev, obj];
-		});
+	const onAddToCart = async (obj) => {
+		try {
+			const {data} = await axios.post('https://67add5003f5a4e1477df47df.mockapi.io/cart', obj);
+
+			setCartItems((prev) => {
+				const isItemInCart = prev.some((item) => item.id === obj.id);
+				if (isItemInCart) {
+					return prev.filter((item) => item.id !== obj.id);
+				}
+				return [...prev, data];
+			});
+		} catch (error) {
+			console.error('Ошибка при добавлении в корзину:', error);
+		}
 	};
+
 
 	const onRemoveItem = (id) => {
 		console.log(id);
@@ -49,13 +53,13 @@ function App() {
 		setCartItems(prev => prev.filter(item => item.id !== id));
 	};
 
-	const onAddToFavorite = (obj) => {
+	const onAddToFavorite = async (obj) => {
 		if (favorites.find((favobj) => favobj.id === obj.id)) {
 			axios.delete(`https://67add5003f5a4e1477df47df.mockapi.io/favorites/${obj.id}`);
 			setfavorites((prev) => prev.filter((item) => item.id !== obj.id));
 		} else {
-			axios.post('https://67add5003f5a4e1477df47df.mockapi.io/favorites', obj)
-			setfavorites((prev) => [...prev, obj]);
+			const {data} = await axios.post('https://67add5003f5a4e1477df47df.mockapi.io/favorites', obj)
+			setfavorites((prev) => [...prev, data]);
 		}
 	};
 
@@ -71,7 +75,7 @@ function App() {
 	}
 	return (
 		<div className="wrapper clear">
-			<Header onClickCart={() => setCartOpened(!cartOpened)} />
+			<Header onClickCart={() => setCartOpened(!cartOpened)}/>
 			{cartOpened && <CartDrawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem}/>}
 			<Routes>
 
@@ -95,12 +99,11 @@ function App() {
 				<Route
 					path="/react-sneakers/favorites"
 					element={
-						<Favorites items={favorites} onAddToFavorite ={onAddToFavorite}/>
+						<Favorites items={favorites} onAddToFavorite={onAddToFavorite}/>
 					}
 					exact
-					/>
+				/>
 			</Routes>
-
 
 
 		</div>
