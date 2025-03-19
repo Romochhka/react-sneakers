@@ -23,6 +23,7 @@ header {
 
   img {
     margin-right: 15px;
+    vertical-align: middle;
   }
 
   h3,
@@ -36,11 +37,7 @@ header {
     margin: 0;
   }
 
-.cartEmpty {
-  text-align: center;
-}
-
-p {
+    p {
   width: 280px;
   line-height: 24px;
 }
@@ -90,7 +87,7 @@ p {
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -108,6 +105,49 @@ p {
   box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.2);
   padding: 30px;
 
+  .cartEmpty {
+    margin-top: 50%;
+
+    .greenButton {
+      position: relative;
+
+      &:hover {
+        img {
+          transform: rotate(180deg) translateX(5px);
+        }
+      }
+
+      img {
+        position: absolute;
+        left: 30px;
+        top: 20px;
+        transition: transform 0.2s ease-in-out;
+        transform: rotate(180deg) translateX(3px);
+      }
+    }
+
+    .greenButton {
+
+      width: 100%;
+      height: 55px;
+      background: #9DD558;
+      border-radius: 18px;
+      border: 0;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.1s ease-in-out;
+
+      &:hover {
+        background: lighten(#9dd558, 5%);
+      }
+
+      &:active {
+        background: darken(#9dd558, 5%);
+      }
+    }
+  }
   .items {
     overflow: auto;
     margin-bottom: 40px;
@@ -120,7 +160,6 @@ p {
     margin: 0;
   }
 }
-
 .items {
   flex: 1;
 }
@@ -152,8 +191,13 @@ h2 {
   }
 }
 
+
   .greenButton {
     position: relative;
+
+    &:disabled {
+      animation: button-loading 0.9s ease-in-out infinite;
+    }
 
     &:hover {
       img {
@@ -179,15 +223,17 @@ h2 {
     color: #fff;
     font-size: 16px;
     font-weight: 500;
-
-    background: #9DD558;
-    border-radius: 18px;
     cursor: pointer;
     transition: background 0.1s ease-in-out;
 
-    &:hover {
-      background: lighten(#9dd558, 5%);
+    &:disabled {
+      background-color: #bebebe !important;
+      cursor: default;
     }
+
+    //&:hover {
+    //  background: lighten(#9dd558, 5%);
+    //}
 
     &:active {
       background: darken(#9dd558, 5%);
@@ -225,6 +271,18 @@ h2 {
   transition: opacity 0.2s ease-in-out;
 
   &:hover {
+    opacity: 1;
+  }
+}
+
+@keyframes button-loading {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
     opacity: 1;
   }
 }

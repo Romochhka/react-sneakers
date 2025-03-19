@@ -1,5 +1,5 @@
-import Card from "../components/Card/Card.jsx";
 import React from "react";
+import Card from "../components/Card/Card.jsx";
 
 function Home({
 				  searchValue,
@@ -8,8 +8,29 @@ function Home({
 				  onAddToCart,
 				  onClearSearch,
 				  upperCaseSearch,
-
+				  isLoading,
 			  }) {
+
+
+	const renderItems = () => {
+		return (isLoading ? [...Array(8)] :
+			upperCaseSearch()).map((item, index) => (
+			<Card
+				key={index}
+				onFavorite={(obj) => onAddToFavorite(obj)}
+				onPlus={(obj) => onAddToCart(obj)}
+				loading={isLoading}
+				{...item}
+
+			/>
+
+		));
+
+	};
+	console.log("upperCaseSearch result:", upperCaseSearch());
+
+
+
 	return (
 		<div className="content p-40">
 			<div className="d-flex align-center justify-between mb-40">
@@ -30,16 +51,7 @@ function Home({
 
 			</div>
 			<div className="d-flex flex-wrap">
-				{upperCaseSearch().map((item, index) => (
-					<Card
-						key={index}
-						onFavorite={(obj) => onAddToFavorite(obj)}
-						onPlus={(obj) => onAddToCart(obj)}
-						{...item}
-
-					/>
-
-				))}
+				{renderItems()}
 
 			</div>
 		</div>

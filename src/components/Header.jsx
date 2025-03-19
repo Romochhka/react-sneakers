@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 function Header(props) {
 	return (
 		<header className="d-flex justify-between align-center p-40">
-			<div className="d-flex align-centerl">
+			<div className="d-flex align-center">
 				<Link to="/react-sneakers/">
 					<img width={40} height={40} src="./logo.png" alt="logo"/>
 					<div>
@@ -20,7 +20,7 @@ function Header(props) {
 				</li>
 				<li className="mr-30">
 					<Link to="/react-sneakers/favorites">
-						<img width={18} height={18} src="./LoveIcon.svg" alt="LoveIcon"/>
+						<img  width={18} height={18} src="./LoveIcon.svg" alt="LoveIcon"/>
 						<span>Закладки </span>
 					</Link>
 
