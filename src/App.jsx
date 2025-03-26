@@ -2,9 +2,10 @@ import React from 'react';
 import {Route, Routes} from 'react-router-dom'
 import axios from 'axios';
 import Header from "./components/Header.jsx";
-import CartDrawer from "./components/CartDrawer.jsx";
+import Index from "./components/CartDrawer/index.jsx";
 import Home from "./pages/Home.jsx";
-import Favorites from "./pages/Favorites.jsx";
+import Favorites from "./pages/Favorites.jsx"
+import Orders from './pages/Orders.jsx'
 import AppContext from "./components/context.jsx";
 
 function App() {
@@ -17,17 +18,16 @@ function App() {
 
 	React.useEffect(() => {
 		async function fetchData() {
-			const cartResponse = await	axios.get('https://67add5003f5a4e1477df47df.mockapi.io/cart');
-			const favoritesResponse = await axios.get('https://67add5003f5a4e1477df47df.mockapi.io/favorites');
-			const itemsResponse = await axios.get('https://react-sneakers-1f8db-default-rtdb.asia-southeast1.firebasedatabase.app/items/.json');
+			try {
+				const [cartResponse,favoritesResponse, itemsResponse] = await Promise.all([axios.get('https://67add5003f5a4e1477df47df.mockapi.io/cart'), axios.get('https://67add5003f5a4e1477df47df.mockapi.io/favorites'), axios.get('https://react-sneakers-1f8db-default-rtdb.asia-southeast1.firebasedatabase.app/items/.json')]);
 
-			setIsLoading(false)
-
-			setCartItems(cartResponse.data);
-			setfavorites(favoritesResponse.data);
-			setItems(itemsResponse.data);
-
-
+				setIsLoading(false);
+				setCartItems(cartResponse.data);
+				setfavorites(favoritesResponse.data);
+				setItems(itemsResponse.data);
+			} catch (error) {
+				alert("Ошибка при данных:(")
+			}
 		}
 
 		fetchData();
@@ -48,28 +48,42 @@ function App() {
 				setCartItems((prev) => [...prev, { ...data, parentId: obj.id }]);
 			}
 		} catch (error) {
-			console.error('Ошибка при добавлении в корзину:', error);
+			alert('Ошибка при добавлении в корзину');
+			console.error(error)
 		}
 	};
 
 
 
 	const onRemoveItem = (id) => {
-		console.log(id);
-		axios.delete(`https://67add5003f5a4e1477df47df.mockapi.io/cart/${id}`);
+		try {
+			axios.delete(`https://67add5003f5a4e1477df47df.mockapi.io/cart/${id}`);
 
-		setCartItems(prev => prev.filter(item => item.id !== id));
+			setCartItems(prev => prev.filter(item => item.id !== id));
+		} catch (error) {
+			alert("Ошибка при удалении из корзины")
+				console.error(error);
+		}
 	};
 
 	const onAddToFavorite = async (obj) => {
-		if (favorites.find((favobj) => favobj.id === obj.id)) {
-			axios.delete(`https://67add5003f5a4e1477df47df.mockapi.io/favorites/${obj.id}`);
-			setfavorites((prev) => prev.filter((item) => item.id !== obj.id));
-		} else {
-			const {data} = await axios.post('https://67add5003f5a4e1477df47df.mockapi.io/favorites', obj)
-			setfavorites((prev) => [...prev, data]);
+		try {
+			if (favorites.find((favObj) => favObj.id === obj.id)) {
+				await axios.delete(`https://67add5003f5a4e1477df47df.mockapi.io/favorites/${obj.id}`);
+				setfavorites((prev) => prev.filter((item) => item.id !== obj.id));
+			} else {
+				const { data } = await axios.post(
+					'https://67add5003f5a4e1477df47df.mockapi.io/favorites',
+					obj
+				);
+				setfavorites((prev) => [...prev, data]);
+			}
+		} catch (error) {
+			alert('Не удалось');
+			console.error(error);
 		}
 	};
+
 
 	const onChangeSearchInput = (event) => {
 		setSearchValue(event.target.value);
@@ -83,8 +97,6 @@ function App() {
 	}
 
 	const isItemAdded = (id) => {
-		console.log("Проверка галочки для id:", id);
-		console.log("cartItems:", cartItems);
 
 		return cartItems.some((obj) => Number(obj.parentId) === Number(id));
 		// return cartItems.some(item => item.id === id);
@@ -92,11 +104,11 @@ function App() {
 	};
 
 	return (
-		<AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems}}>
+		<AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, onAddToCart, setCartOpened, setCartItems}}>
 			<div className="wrapper clear">
+				<Index items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} opened={ cartOpened } />
+
 				<Header onClickCart={() => setCartOpened(!cartOpened)}/>
-				{cartOpened &&
-					<CartDrawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem}/>}
 				<Routes>
 
 
@@ -122,6 +134,13 @@ function App() {
 						path="/react-sneakers/favorites"
 						element={
 							<Favorites />
+						}
+						exact
+					/>
+					<Route
+						path="/react-sneakers/orders"
+						element={
+							<Orders />
 						}
 						exact
 					/>

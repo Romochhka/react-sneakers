@@ -1,10 +1,13 @@
 import React, {useState, useContext} from 'react';
-import Info from '../shared/Info.jsx';
-import AppContext from "../components/context.jsx";
 import axios from 'axios';
 
-function CartDrawer({onClose, onRemove, items = []}) {
-	const {cartItems, setCartItems} = useContext(AppContext);
+import Info from '../../shared/Info.jsx';
+import {useCart} from "../../shared/hooks/useCart.jsx"
+
+import styles from './CartDrawer.module.scss'
+
+function Index({onClose, onRemove, items = [], opened}) {
+	const { cartItems,setCartItems,totalPrice, tax } = useCart()
 	const [isOrderComplete, setIsOrderComplete] = useState(false);
 	const [orderId, setOrderId] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
@@ -42,12 +45,10 @@ function CartDrawer({onClose, onRemove, items = []}) {
 		setIsLoading(false);
 	};
 
-	const totalPrice = items.reduce((total, item) => total + item.price, 0);
-	const tax = (totalPrice * 0.05).toFixed(2);
 
 	return (
-		<div className="overlay">
-			<div className="rightSide">
+		<div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+			<div className={styles.rightSide}>
 				<h2 className="d-flex justify-between mb-30">
 					Корзина
 					<img onClick={onClose} className="cu-p" src="./btn-remove.svg" alt="remove"/>
@@ -55,7 +56,7 @@ function CartDrawer({onClose, onRemove, items = []}) {
 
 				{items.length > 0 ? (
 					<div className="d-flex flex-column flex">
-						<div className="items">
+						<div className="items flex">
 							{items.map((obj) => (
 								<div key={obj.id} className="cartItem d-flex align-center mb-20">
 									<div
@@ -109,5 +110,5 @@ function CartDrawer({onClose, onRemove, items = []}) {
 	);
 }
 
-export default CartDrawer;
+export default Index;
 	

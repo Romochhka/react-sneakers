@@ -21,16 +21,11 @@ function Home({
 				onPlus={(obj) => onAddToCart(obj)}
 				loading={isLoading}
 				{...item}
-
 			/>
 
 		));
 
 	};
-	console.log("upperCaseSearch result:", upperCaseSearch());
-
-
-
 	return (
 		<div className="content p-40">
 			<div className="d-flex align-center justify-between mb-40">

@@ -86,87 +86,8 @@ header {
   }
 }
 
-.overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 1;
-}
 
-.rightSide {
-  position: absolute;
-  width: 420px;
-  height: 100%;
-  right: 0;
-  background: #fff;
-  box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.2);
-  padding: 30px;
 
-  .cartEmpty {
-    margin-top: 50%;
-
-    .greenButton {
-      position: relative;
-
-      &:hover {
-        img {
-          transform: rotate(180deg) translateX(5px);
-        }
-      }
-
-      img {
-        position: absolute;
-        left: 30px;
-        top: 20px;
-        transition: transform 0.2s ease-in-out;
-        transform: rotate(180deg) translateX(3px);
-      }
-    }
-
-    .greenButton {
-
-      width: 100%;
-      height: 55px;
-      background: #9DD558;
-      border-radius: 18px;
-      border: 0;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.1s ease-in-out;
-
-      &:hover {
-        background: lighten(#9dd558, 5%);
-      }
-
-      &:active {
-        background: darken(#9dd558, 5%);
-      }
-    }
-  }
-  .items {
-    overflow: auto;
-    margin-bottom: 40px;
-  }
-
-  display: flex;
-  flex-direction: column;
-
-  h2 {
-    margin: 0;
-  }
-}
-.items {
-  flex: 1;
-}
-
-h2 {
-  margin: 0;
-}
 
 .cartTotalBlock {
   ul {
@@ -286,3 +207,41 @@ h2 {
     opacity: 1;
   }
 }
+.cartEmpty {
+  margin-top: 50%;
+
+  .greenButton {
+    margin-top: 20px;
+    width: 250px;
+    height: 55px;
+    background: #9DD558;
+    border-radius: 18px;
+    border: 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.1s ease-in-out;
+
+    &:hover {
+      img {
+        transform: rotate(180deg) translateX(3px);
+      }
+    }
+      img {
+        position: relative;
+        top: 1px;
+        transform: rotate(180deg);
+        transition: transform 0.15s ease-in-out;
+      }
+
+      &:hover {
+        background: lighten(#9dd558, 5%);
+      }
+
+
+      &:active {
+        background: darken(#9dd558, 5%);
+      }
+    }
+  }
